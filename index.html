@@ -2,105 +2,24 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vidéo plein écran</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      background: black;
-      height: 100%;
-      overflow: hidden;
-    }
-
-    #player, iframe {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 1;
-    }
-
-    #link-overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: black;
-      color: white;
-      font-size: 2rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2;
-      text-align: center;
-    }
-
-    a {
-      color: cyan;
-      text-decoration: underline;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vidéo Plein Écran</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="player"></div>
+  <video id="background-video" autoplay loop muted playsinline>
+    <source src="video.mp4" type="video/mp4" />
+    Votre navigateur ne supporte pas la vidéo HTML5.
+  </video>
+
   <div id="link-overlay">
-    <div>
-      <p>Le lien secret est disponible : <a href="https://exemple.com" target="_blank">Clique ici</a></p>
-    </div>
+    <p>
+      Le lien secret est disponible :
+      <a href="https://exemple.com" target="_blank">Clique ici</a>
+    </p>
   </div>
 
-  <script>
-    // YouTube API
-    let player;
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        videoId: 'ubFq-wV3Eic',
-        playerVars: {
-          autoplay: 1,
-          controls: 0,
-          modestbranding: 1,
-          loop: 1,
-          playlist: 'ubFq-wV3Eic',
-          mute: 1,
-          fs: 0,
-          rel: 0,
-          showinfo: 0
-        },
-        events: {
-          onReady: event => event.target.playVideo()
-        }
-      });
-    }
-
-    // Charger l'API
-    const tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    document.body.appendChild(tag);
-
-    // Affichage du lien toutes les 24h pendant 2 min
-    function checkTime() {
-      const now = new Date();
-      const cycleStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      const elapsed = now - cycleStart;
-      const interval = 24 * 60 * 60 * 1000; // 24h en ms
-      const showDuration = 2 * 60 * 1000;   // 2 min en ms
-
-      const timeInCycle = elapsed % interval;
-
-      const overlay = document.getElementById('link-overlay');
-      if (timeInCycle < showDuration) {
-        overlay.style.display = 'flex';
-      } else {
-        overlay.style.display = 'none';
-      }
-    }
-
-    setInterval(checkTime, 1000); // Vérifie toutes les secondes
-    checkTime();
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
+
